@@ -2,7 +2,7 @@
 set_time_limit(0);
 $server = "irc.freenode.org";
 $nick = "etc-bot";
-$channels = array("#goeosbottest", "#dchatt","#atxhack","#anonbottest","#jailbreakqa","#wenetapls");
+$channels = array("#goeosbottest", "#dchatt","#atxhack","#anonbottest",/*"#jailbreakqa"*/"#wenetapls");
 $port = 6667;
 $lastused = array();
 $connection = fsockopen("$server", $port);
@@ -47,7 +47,7 @@ if(isset($lastused[$user]))
 $aa = time()-$lastused[$user];
 }
 echo "aa = $aa\n";
-if(($aa > 120) || (!isset($lastused[$user])))
+if(($aa > 10) || (!isset($lastused[$user])))
 {
 echo "valid\n";
 $lastused[$user] = time();
@@ -57,11 +57,11 @@ if(isset($a1[5]))
 {
 $t .= " " . $a1[5];
 }
-$ruser = urlencode(strtolower(str_replace("\n","",str_replace("\r","",$t))));
-$uurl = url($ruser,ge("http://www.jailbreakqa.com/users/?q={$ruser}"));
+$ruser = strtolower(str_replace("\n","",str_replace("\r","",$t)));
+$uurl = url($ruser,ge("http://www.jailbreakqa.com/users/?q=" . urlencode($ruser)));
 if(!$uurl)
 {
-  fputs($connection,"PRIVMSG {$inchannel} :{$user}: User not found, remember that the nick is case sensitive...\n");
+  fputs($connection,"PRIVMSG {$inchannel} :{$user}: User not found.\n");
 }
 else
 {
@@ -97,7 +97,7 @@ return $response[1];
 function karma($userurl)
 {
   $dom = new DOMDocument();
-@$dom->loadHTML(ge("http://www.jailbreakqa.com{$userurl}"));
+@$dom->loadHTML(ge("http://www.jailbreakqa.com" . $userurl));
   $div = $dom->getElementById('user-reputation');
 return $div->textContent;
 }
@@ -105,21 +105,24 @@ function url($user,$html)
 {
 $dom = new DOMDocument();
 @$dom->loadHTML($html);
-$opshit = "{$user} ♦";
+$opshit = "♦";
 $a = $dom->getElementsByTagName('a');
 for ($i =0; $i < $a->length; $i++) {
   $elem = $a->item($i);
   $cont = strtolower($elem->textContent);
   $href = $elem->getAttribute("href");
-	echo "$cont $href\n";
   if($cont == $user)
   {
     return $href;
   }
-  elseif($cont == $opshit)
-  {
-    return $href;
-  }
+	elseif($cont == $user . " ".  $opshit)
+	{
+		return $href;
+	}
+	elseif($cont == $user . " ". $opshit . $opshit)
+{
+	return $href;
+}
 }
 return false;
 }

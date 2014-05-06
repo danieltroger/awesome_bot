@@ -12,7 +12,6 @@ foreach($channels as $channel)
 {
 fputs ($connection, "JOIN {$channel}\n");
 }
-//fputs($connection,"PRIVMSG NickServ :identify birkenweg3\n");
 while(1){
 	while($data = fgets($connection)){
 	echo $data;
@@ -58,7 +57,7 @@ if(isset($a1[5]))
 {
 $t .= " " . $a1[5];
 }
-$ruser = strtolower(str_replace(" ","-",str_replace("\n","",str_replace("\r","",$t))));
+$ruser = urlencode(strtolower(str_replace("\n","",str_replace("\r","",$t))));
 $uurl = url($ruser,ge("http://www.jailbreakqa.com/users/?q={$ruser}"));
 if(!$uurl)
 {
@@ -112,6 +111,7 @@ for ($i =0; $i < $a->length; $i++) {
   $elem = $a->item($i);
   $cont = strtolower($elem->textContent);
   $href = $elem->getAttribute("href");
+	echo "$cont $href\n";
   if($cont == $user)
   {
     return $href;

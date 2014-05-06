@@ -58,7 +58,7 @@ if(isset($a1[5]))
 {
 $t .= " " . $a1[5];
 }
-$ruser = str_replace("\n","",str_replace("\r","",$t));
+$ruser = strtolower(str_replace(" ","-",str_replace("\n","",str_replace("\r","",$t))));
 $uurl = url($ruser,ge("http://www.jailbreakqa.com/users/?q={$ruser}"));
 if(!$uurl)
 {
@@ -110,7 +110,7 @@ $opshit = "{$user} ♦";
 $a = $dom->getElementsByTagName('a');
 for ($i =0; $i < $a->length; $i++) {
   $elem = $a->item($i);
-  $cont = $elem->textContent;
+  $cont = strtolower($elem->textContent);
   $href = $elem->getAttribute("href");
   if($cont == $user)
   {

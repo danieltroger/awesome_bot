@@ -1,8 +1,8 @@
 <?php
 set_time_limit(0);
 $server = "irc.freenode.org";
-$nick = "etc-bot";
-$channels = array("#goeosbottest", "#dchatt","#atxhack","#anonbottest",/*"#jailbreakqa"*/"#wenetapls");
+$nick = "etc-bot2";
+$channels = array("#goeosbottest", "#dchatt","#atxhack","#anonbottest","#jailbreakqa","#wenetapls");
 $port = 6667;
 $lastused = array();
 $connection = fsockopen("$server", $port);
@@ -38,6 +38,10 @@ while(1){
 if(strpos(substr(strtolower($a1[3]),1),"!stether") !== false )
 {
 fputs($connection,"PRIVMSG {$inchannel} :{$user}: Add repo.natur-kultur.eu to your sources in cydia and install 7.1 semitether.\n");
+}
+if(strpos(substr(strtolower($a1[3]),1),"!define") !== false )
+{
+fputs($connection,"PRIVMSG {$inchannel} :{$user}: " . uddefine(str_replace("\r","",$a1[4]),"http://de.urbandictionary.com/define.php?term=") . "\n");
 }
 if(strpos(substr(strtolower($a1[3]),1),"!karma") !== false )
 {
@@ -79,7 +83,21 @@ fputs($connection,"PRIVMSG {$inchannel} :{$user}: iOS 7.1 tweaklist: http://goo.
 }
 	}
 }
-
+function uddefine($term,$baseuri)
+{
+$dom = new DOMDocument();
+@$dom->loadHTML(ge($baseuri. urlencode($term)));
+$classname="meaning";
+$finder = new DomXPath($dom);
+$elements = $finder->query("//*[contains(@class, '$classname')]");
+$text = str_replace("\r","",str_replace(".",". ",str_replace(":",": ",str_replace("\n","",$elements->item(0)->textContent))));
+if(strlen($text) < 4)
+{
+return "Something went wrong, {$text}";
+}
+else
+{return $text;}
+}
 function ge($url)
 {
   echo "curling $url...\n";
@@ -90,8 +108,8 @@ function ge($url)
     curl_setopt( $ch, CURLOPT_USERAGENT, "PHP55");
    $response = preg_split( '/([\r\n][\r\n])\\1/', curl_exec( $ch ));
   $response = preg_split( '/([\r\n][\r\n]){2}/', curl_exec( $ch ),2);
-
 	curl_close( $ch );
+echo "request complete.\n";
 return $response[1];
 }
 function karma($userurl)

@@ -1,8 +1,8 @@
 <?php
 set_time_limit(0);
 $server = "irc.freenode.org";
-$nick = "etc-bot2";
-$channels = array("#goeosbottest", "#dchatt","#atxhack","#anonbottest","#jailbreakqa","#wenetapls");
+$nick = "etc-bot";
+$channels = array( "#dchatt","#atxhack","#anonbottest","#jailbreakqa","#wenetapls");
 $port = 6667;
 $lastused = array();
 $connection = fsockopen("$server", $port);
@@ -42,6 +42,17 @@ fputs($connection,"PRIVMSG {$inchannel} :{$user}: Add repo.natur-kultur.eu to yo
 if(strpos(substr(strtolower($a1[3]),1),"!define") !== false )
 {
 fputs($connection,"PRIVMSG {$inchannel} :{$user}: " . uddefine(str_replace("\r","",$a1[4]),"http://de.urbandictionary.com/define.php?term=") . "\n");
+}
+if(strpos(substr(strtolower($a1[3]),1),"!uurl") !== false )
+{
+$t = $a1[4];
+if(isset($a1[5]))
+{
+$t .= " " . $a1[5];
+}
+$ruser = strtolower(str_replace("\n","",str_replace("\r","",$t)));
+$uurl = url($ruser,ge("http://www.jailbreakqa.com/users/?q=" . urlencode($ruser)));
+fputs($connection,"PRIVMSG {$inchannel} :{$user}: http://jailbreakqa.com" . $uurl . "\n");
 }
 if(strpos(substr(strtolower($a1[3]),1),"!karma") !== false )
 {

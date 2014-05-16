@@ -2,7 +2,7 @@
 set_time_limit(0);
 $server = "irc.freenode.org";
 $nick = "etc-bot";
-$channels = array( "#dchatt","#atxhack","#anonbottest","#jailbreakqa","#wenetapls");
+$channels = array( "#dchatt","#atxhack","#anonbottest","#wenetapls");
 $port = 6667;
 $lastused = array();
 $connection = fsockopen("$server", $port);

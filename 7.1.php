@@ -11,6 +11,7 @@ fputs ($connection, "NICK $nick\n");
 foreach($channels as $channel)
 {
 fputs ($connection, "JOIN {$channel}\n");
+fputs ($connection, "PRIVMSG {$channel} :Hello, i'm a bot, developed by Daniel, please read https://raw.githubusercontent.com/danieltroger/7.1/master/LICENSE before using me.\n");
 }
 while(1){
 	while($data = fgets($connection)){

@@ -11,3 +11,5 @@ even though it causes some "Hangup: 1" errors sometimes
 
 Originally didn't make this to upload it to github, but why not update my old crap? Anyways, here's the (at the moment) latest source link which it has generated itself:
 <a href="https://leetfil.es/paste/d476833b">https://leetfil.es/paste/d476833b</a>
+
+This still needs to be worked on, but I want to focus at <a href="http://github.com/danieltroger/schedules">http://github.com/danieltroger/schedules</a>.
